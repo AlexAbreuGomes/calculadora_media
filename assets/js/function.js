@@ -1,16 +1,29 @@
-console.log("teste");
-function calcularMedia() {
-    const nota1 = parseFloat(document.getElementById('nota1').value) || 0;
-    const nota2 = parseFloat(document.getElementById('nota2').value) || 0;
-    const nota3 = parseFloat(document.getElementById('nota3').value) || 0;
-    const nota4 = parseFloat(document.getElementById('nota4').value) || 0;
-    const notaMedia = (nota1 + nota2 + nota3 + nota4) / 4;
-    const calculoMedia = document.getElementById('calculoMedia');
-  
-    if (notaMedia >= 6) {
-      calculoMedia.innerText = `Parabéns, você está aprovado! Sua média é ${notaMedia.toFixed(2)}`;
-    } else {
-      calculoMedia.innerText = `Reprovado, continue tentando. Sua média é ${notaMedia.toFixed(2)}`;
-    }
+const adicionarNome = document.getElementById("inNome");
+const botaoNome = document.getElementById("botaoNome");
+
+botaoNome.addEventListener("click", function () {
+  const nome = adicionarNome.value;
+  localStorage.setItem("nome", nome); // Armazena o valor de nome no localStorage
+  console.log(`O nome digitado foi adicionado: ${nome}`);
+});
+// Evento de clique para adicionar notas
+const botaoAdicionarNota = document.getElementById("adicionarNota");
+botaoAdicionarNota.addEventListener("click", adicionarNota);
+
+//escuta o Evento de teclado para calcular a média se o botao 'space' for pressionado
+document.addEventListener("keydown", function (event) {
+  if (event.key === " ") {
+    adicionarNota();
   }
-  
+});
+
+// Evento de clique para calcular a média
+const botaoCalcularMedia = document.getElementById("calcularMedia");
+botaoCalcularMedia.addEventListener("click", calcularMedia);
+
+//escuta o Evento de teclado para calcular a média se o botao 'enter' for pressionado
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    calcularMedia();
+  }
+});
