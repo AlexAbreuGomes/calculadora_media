@@ -1,5 +1,5 @@
 const path = require("path");
-const { app, BrowserWindow, Menu, shell } = require("electron");
+const { app, BrowserWindow, Menu, shell, ipcMain} = require("electron");
 //const { rootCertificates } = require("tls");
 
 const createWindow = () => {
@@ -22,6 +22,25 @@ app.whenReady().then(() => {
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") app.quit();
+});
+
+let janelaSobre = null;
+
+ipcMain.on("abrir-janela-sobre", () => {
+  if (!janelaSobre) {
+    janelaSobre = new BrowserWindow({
+      width: 300,
+      height: 250,
+      frame: false,
+      webPreferences: {
+        preload: `${__dirname}/preload.js`,
+      },
+    });
+    janelaSobre.on("closed", () => {
+      janelaSobre = null;
+    });
+    janelaSobre.loadURL(`file://${__dirname}/sobre.html`);
+  }
 });
 
 const template = [
@@ -76,19 +95,27 @@ const template = [
       },
       {
         label: 'Sobre',
-        click: () => janelaSobre()
+        click: () => sobreMenu()
       }
       
     ]
-  },
-]
+  }
+];
 
-const janelaSobre = () =>{
-  const sobre = new BrowserWindow({
-    width: 320,
-    height: 220,
-    resizable: false,
-    autoHideMenuBar: true,
-  });
-  sobre.loadFile('sobre.html')
-}
+const  sobreMenu = () => {
+  if (!janelaSobre) {
+    janelaSobre = new BrowserWindow({
+      width: 300,
+      height: 250,
+      
+      webPreferences: {
+        preload: `${__dirname}/preload.js`,
+      },
+    });
+    janelaSobre.on("closed", () => {
+      janelaSobre = null;
+    });
+    janelaSobre.loadURL(`file://${__dirname}/sobre.html`);
+  }
+};
+

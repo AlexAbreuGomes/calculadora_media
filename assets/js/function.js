@@ -1,11 +1,19 @@
 const adicionarNome = document.getElementById("inNome");
-const botaoNome = document.getElementById("botaoNome");
+const botaoNome = document.getElementById("calcularMedia");
 
-botaoNome.addEventListener("click", function () {
+botaoNome.addEventListener("click",  () =>{
   const nome = adicionarNome.value;
-  localStorage.setItem("nome", nome); // Armazena o valor de nome no localStorage
   console.log(`O nome digitado foi adicionado: ${nome}`);
 });
+
+// Evento de teclado para adicionar o nome quando a tecla Enter for pressionada
+botaoNome.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    const nome = adicionarNome.value;
+    console.log(`O nome digitado foi adicionado: ${nome}`);
+  }
+});
+
 // Evento de clique para adicionar notas
 const botaoAdicionarNota = document.getElementById("adicionarNota");
 botaoAdicionarNota.addEventListener("click", adicionarNota);
@@ -25,5 +33,8 @@ botaoCalcularMedia.addEventListener("click", calcularMedia);
 document.addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
     calcularMedia();
+
   }
 });
+
+

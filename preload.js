@@ -8,3 +8,14 @@ window.addEventListener('DOMContentLoaded', () => {
       replaceText(`${dependency}-version`, process.versions[dependency])
     }
   })
+
+  const { contextBridge, ipcRenderer } = require('electron');
+
+contextBridge.exposeInMainWorld('api', {
+  send: (channel, data) => {
+    let canaisValidos = ['abrir-janela-sobre','fechar-janela-sobre'];
+    if (canaisValidos.includes(channel)) {
+      ipcRenderer.send(channel, data);
+    }
+  }
+});
